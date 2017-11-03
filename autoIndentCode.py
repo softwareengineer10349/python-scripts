@@ -52,6 +52,7 @@ for line in fo:
 			lowest_increment = each_increment_index
 			if(lowest_increment < lowest_decrement):
 				decrements_that_count -= 1
+				increment_indexes.remove(lowest_increment)
 				break;
 
 	old_tabs_right_now = tabs_right_now
