@@ -1,19 +1,24 @@
 import re
 import fnmatch
 import os
+import sys
 
-fileExtension=".txt"
+if(len(sys.argv) != 3):
+	print "You did not enter 2 paramaters. This function requires 2 paramaters to be entered"
+	print "Usage: autoIndentCode.py filename_to_be_read filename_to_write_to"
+	sys.exit()
 
-for file in os.listdir('.'):
-	if fnmatch.fnmatch(file, 'dumbCode.*'):
-		new_file_extension=file.split(".")
-		if(len(new_file_extension)>0):
-			fileExtension=new_file_extension[1]
-			break
+try:
+	fo = open(sys.argv[1], "r")
+except:
+	print "The filename " + sys.argv[1] + " could not be opened. Check the name and path and try again."
+	sys.exit()
 
-
-fo = open("dumbCode."+fileExtension, "r") #replace with your filename of the file to read
-file_for_writing=open("indented."+fileExtension,"w") #replace with the new filename you want
+try:
+	file_for_writing = open(sys.argv[2], "w")
+except:
+	print "The filename " + sys.argv[2] + " could not be opened. Check the name and path and try again."
+	sys.exit()
 
 
 def getNumberOfTabs(num_of_tabs):
