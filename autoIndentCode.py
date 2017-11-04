@@ -30,9 +30,40 @@ def getNumberOfTabs(num_of_tabs):
 def returnArrayOfIndexPostions(whole_string, specific_char):
     return [i for i, this_letter_of_string in enumerate(whole_string) if this_letter_of_string == specific_char]
 
+def removeFromArrayIfPreviousIsBackslash(array_to_test,line_to_test):
+	for each_index in array_to_test:
+		previous_index = each_index - 1
+		if(line_to_test[previous_index] == "\\"):
+			array_to_test.remove(each_index)
+
+def removeFromArrayIfQuoted(array_of_brackets, array_of_quotes, currently_on, final_index):
+	if(currently_on == 1):
+		array_of_quotes.insert(0,0)
+	start_quote_array = []
+	end_quote_array = []
+	counter = 0
+	for each_quote_index in array_of_quotes:
+		if (counter == 0):
+			start_quote_array.append(each_quote_index)
+			counter = 1
+			continue
+		if (counter == 1):
+			end_quote_array.append(each_quote_index)
+			counter = 0
+			continue
+	if(len(start_quote_array) > len(end_quote_array)):
+		end_quote_array.append(final_index)
+	for i in range(0, len(start_quote_array)):
+		start_index = start_quote_array[i]
+		end_index = end_quote_array[i]
+		for each_bracket_index in array_of_brackets:
+			if(start_index <= each_bracket_index and end_index >= each_bracket_index):
+				array_of_brackets.remove(each_bracket_index)
+
 tabs_right_now = 0
 next_tabs = 0
-
+double_quote_on = 0
+single_quote_on = 0
 
 for line in fo:
 	tabs_right_now = next_tabs
@@ -40,15 +71,25 @@ for line in fo:
 	newline = newline.replace("\n","")
 	count_increment = 0
 	count_decrement = 0
-	if("{" in line):
-		count_increment = newline.count("{")
-	if("}" in line):
-		count_decrement = newline.count("}")
 
 	decrement_indexes = returnArrayOfIndexPostions(newline, "}")
 	increment_indexes = returnArrayOfIndexPostions(newline, "{")
+	double_quote_indexes = returnArrayOfIndexPostions(newline, "\"")
+	single_quote_indexes = returnArrayOfIndexPostions(newline, "\'")
+	removeFromArrayIfPreviousIsBackslash(double_quote_indexes, newline)
+	removeFromArrayIfPreviousIsBackslash(single_quote_indexes, newline)
+	double_quote_indexes.sort()
+	single_quote_indexes.sort()
 	decrement_indexes.sort()
 	increment_indexes.sort()
+	removeFromArrayIfQuoted(increment_indexes,double_quote_indexes,double_quote_on,len(newline)-1)
+	removeFromArrayIfQuoted(decrement_indexes,double_quote_indexes,double_quote_on,len(newline)-1)
+	removeFromArrayIfQuoted(increment_indexes,single_quote_indexes,single_quote_on,len(newline)-1)
+	removeFromArrayIfQuoted(decrement_indexes,single_quote_indexes,single_quote_on,len(newline)-1)
+	count_increment = len(increment_indexes)
+	count_decrement = len(decrement_indexes)
+	double_quote_on = (len(double_quote_indexes)+double_quote_on) % 2
+	single_quote_on = (len(single_quote_indexes)+single_quote_on) % 2
 
 	decrements_that_count = count_decrement
 	for each_decrement_index in decrement_indexes:
