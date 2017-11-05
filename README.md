@@ -2,7 +2,7 @@
 
 This is just a series of python scripts that I have made which might be useful to other people.
 
-======================================================= autoIndentCode.py ===================================================================================
+========================= autoIndentCode.py =================================
 
 Made for Python 2 and made to be run using the format: python autoIndentCode.py filename_to_be_read filename_to_write_to
 
