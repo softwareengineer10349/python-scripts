@@ -33,8 +33,14 @@ def returnArrayOfIndexPostions(whole_string, specific_char):
 def removeFromArrayIfPreviousIsBackslash(array_to_test,line_to_test):
 	for each_index in array_to_test:
 		previous_index = each_index - 1
-		if(line_to_test[previous_index] == "\\"):
-			array_to_test.remove(each_index)
+		if(previous_index >= 0):
+			if(line_to_test[previous_index] == "\\"):
+				previous_previous_index = previous_index - 1
+				if(previous_previous_index >= 0):
+					if(line_to_test[previous_previous_index] != "\\"):
+						array_to_test.remove(each_index)
+				else:
+					array_to_test.remove(each_index)
 
 def removeFromArrayIfQuoted(array_of_brackets, array_of_quotes, currently_on, final_index):
 	if(currently_on == 1):
@@ -88,6 +94,8 @@ for line in fo:
 	removeFromArrayIfQuoted(decrement_indexes,single_quote_indexes,single_quote_on,len(newline)-1)
 	count_increment = len(increment_indexes)
 	count_decrement = len(decrement_indexes)
+	decrement_indexes.sort()
+	increment_indexes.sort()
 	double_quote_on = (len(double_quote_indexes)+double_quote_on) % 2
 	single_quote_on = (len(single_quote_indexes)+single_quote_on) % 2
 
