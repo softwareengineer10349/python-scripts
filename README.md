@@ -10,12 +10,19 @@ autoIndentCode.py is a script I made for a friend who struggles to read code wit
 
 It will read the input filename and convert it to something which is indented based on brackets.
 E.g. for a file which had the lines:
+
 code{
+
 here
+
 }
+
 It will convert it to:
+
 code{
-  here
+
+	here
+
 }
 
 Feel free to use it if you have access to something that will run Python and want to convert some code into something more readable.
