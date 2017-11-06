@@ -92,50 +92,48 @@ def removeQuotesIfQuoted(array_of_single_quotes, array_of_double_quotes,final_in
 			else:
 				removeIndexesBetween(copy_array_double, copy_array_single, first_index_double, first_index_single, array_of_single_quotes)
 
-tabs_right_now = 0
-next_tabs = 0
-double_quote_on = 0
-single_quote_on = 0
+def sortArrays(list_of_Arrays):
+	for each_array in list_of_Arrays:
+		each_array.sort()
+
+def valueOfQuoteOn(array_of_quotes, quote_on, added_index):
+	return (len(array_of_quotes) + quote_on - added_index) % 2
+
+def compensateIfQuoteOn(quote_on, quote_indexes):
+		if(quote_on == 1):
+			quote_indexes.insert(0,0)
+			return 1
+		return 0
+
+tabs_right_now, next_tabs, double_quote_on, single_quote_on = 0, 0, 0, 0
 
 for line in fo:
 	tabs_right_now = next_tabs
 	newline = re.sub("^\s+", "", line)
 	newline = newline.replace("\n","")
-	count_increment = 0
-	count_decrement = 0
-	added_index_single = 0
-	added_index_double = 0
+	count_increment, count_decrement, added_index_single, added_index_double = 0, 0, 0, 0
 	last_index_of_line = len(newline)-1
 
 	decrement_indexes = returnArrayOfIndexPostions(newline, "}")
 	increment_indexes = returnArrayOfIndexPostions(newline, "{")
 	double_quote_indexes = returnArrayOfIndexPostions(newline, "\"")
 	single_quote_indexes = returnArrayOfIndexPostions(newline, "\'")
-	if(double_quote_on == 1):
-		double_quote_indexes.insert(0,0)
-		added_index_double = 1
-	if(single_quote_on == 1):
-		single_quote_indexes.insert(0,0)
-		added_index_single = 1
+	added_index_double = compensateIfQuoteOn(double_quote_on,double_quote_indexes)
+	added_index_single = compensateIfQuoteOn(single_quote_on,single_quote_indexes)
 	removeFromArrayIfPreviousIsBackslash(double_quote_indexes, newline)
 	removeFromArrayIfPreviousIsBackslash(single_quote_indexes, newline)
-	double_quote_indexes.sort()
-	single_quote_indexes.sort()
+	sortArrays([double_quote_indexes,single_quote_indexes])
 	removeQuotesIfQuoted(single_quote_indexes, double_quote_indexes,last_index_of_line)
-	double_quote_indexes.sort()
-	single_quote_indexes.sort()
-	decrement_indexes.sort()
-	increment_indexes.sort()
+	sortArrays([double_quote_indexes,single_quote_indexes,decrement_indexes, increment_indexes])
 	removeFromArrayIfQuoted(increment_indexes,double_quote_indexes,double_quote_on,last_index_of_line)
 	removeFromArrayIfQuoted(decrement_indexes,double_quote_indexes,double_quote_on,last_index_of_line)
 	removeFromArrayIfQuoted(increment_indexes,single_quote_indexes,single_quote_on,last_index_of_line)
 	removeFromArrayIfQuoted(decrement_indexes,single_quote_indexes,single_quote_on,last_index_of_line)
 	count_increment = len(increment_indexes)
 	count_decrement = len(decrement_indexes)
-	decrement_indexes.sort()
-	increment_indexes.sort()
-	double_quote_on = (len(double_quote_indexes) + double_quote_on - added_index_double) % 2
-	single_quote_on = (len(single_quote_indexes) + single_quote_on - added_index_single) % 2
+	sortArrays([decrement_indexes,increment_indexes])
+	double_quote_on = valueOfQuoteOn(double_quote_indexes, double_quote_on,added_index_double)
+	single_quote_on = valueOfQuoteOn(single_quote_indexes, single_quote_on, added_index_single)
 
 	decrements_that_count = count_decrement
 	for each_decrement_index in decrement_indexes:
