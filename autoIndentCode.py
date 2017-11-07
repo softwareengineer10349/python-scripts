@@ -66,8 +66,6 @@ def removeFromArrayIfQuoted(array_of_brackets, array_of_quotes, currently_on, fi
 				array_of_brackets.remove(each_bracket_index)
 
 def removeIndexesBetween(array_quotes_outer, array_quotes_inner, first_index_outer, first_index_inner, actual_inner_array):
-	print "outer_quote_array = "+str(array_quotes_outer)
-	print "inner_quote_array = "+str(array_quotes_inner)
 	outer_quote_end = array_quotes_outer[1]
 	array_quotes_outer.remove(first_index_outer)
 	array_quotes_outer.remove(outer_quote_end)
@@ -112,7 +110,6 @@ tabs_right_now, next_tabs, double_quote_on, single_quote_on = 0, 0, 0, 0
 for line in fo:
 	tabs_right_now = next_tabs
 	newline = re.sub("^\s+", "", line)
-	print "For the line of code: "+ newline
 	newline = newline.replace("\n","")
 	count_increment, count_decrement, added_index_single, added_index_double = 0, 0, 0, 0
 	last_index_of_line = len(newline)-1
