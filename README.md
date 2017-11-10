@@ -29,3 +29,15 @@ Feel free to use it if you have access to something that will run Python and wan
 It can also be useful if you're having an issue with brackets to quickly figure out where an extra bracket should or should not go.
 You can copy/paste code from something and put it into a file, and then run the script on that. Then look at the file you told it to write to.
 It will not alter the file you read from, so you don't have to worry about it overwriting anything.
+
+===================== webCrawler.py =========================================
+
+Made for Python 2 and made to be run using the format: ./webCrawler.py. Don't forget to
+make sure the script is executable.
+
+webCrawler.py is a script I made to work out what languages/skills were actually used commercially.
+It searches seek.com.au for the locations specified, then searches through every single IT job
+description for the keywords I've told it to look for, and then counts how many jobs mention
+the keyword.
+
+It can take a while to run so you may want to kick it off and then go do something else.
