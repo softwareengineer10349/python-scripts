@@ -35,6 +35,8 @@ It will not alter the file you read from, so you don't have to worry about it ov
 Made for Python 2 and made to be run using the format: ./webCrawler.py. Don't forget to
 make sure the script is executable.
 
+This is still a bit of a work in progress.
+
 webCrawler.py is a script I made to work out what languages/skills were actually used commercially.
 It searches seek.com.au for the locations specified, then searches through every single IT job
 description for the keywords I've told it to look for, and then counts how many jobs mention
