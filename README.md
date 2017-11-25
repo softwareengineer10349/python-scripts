@@ -1,6 +1,7 @@
 # python-scripts
 
-This is just a series of python scripts that I have made which might be useful to other people.
+This started as just a series of python scripts that I have made.
+I then wanted to use the output from the Python scripts in databases and web so it evolved somewhat.
 
 ========================= autoIndentCode.py =================================
 
@@ -43,3 +44,23 @@ description for the keywords I've told it to look for, and then counts how many 
 the keyword.
 
 It can take a while to run so you may want to kick it off and then go do something else.
+
+I wanted to analyse this data a bit so I wrote a script to put it in a MySQL DB.
+You can read about this below.
+
+========================== writeJobStatsToDB.py ===============================
+
+Made for Python 2 and made to be run using to format: ./writeJobStatsToDB.py.
+
+This is a script I made to take the results of webCrawler.py and write it to a DB.
+I mostly did this because I wanted to do some inner joins to look at correlations between skills.
+E.g. the same job description that has "python" has "Javascript" in it more than any other language.
+In general, "SQL" is the most popular language. Isn't that interesting?
+
+I then decided to write a web interface to view the results, which you can read about below.
+
+========================== Web_interface_Javascript_PHP =======================
+
+The web interface which displays the results from webCrawler.py.
+
+Server side all in PHP, client side in HTML/CSS/Javascript/jQuery, charts using Google Charts (with Javascript).
