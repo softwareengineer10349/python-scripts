@@ -19,21 +19,19 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-$count_total = 0;
-
-$firsttable = $_GET["table_name"];
-$city = $_GET["city_name"];
-
-$sql = "SELECT COUNT(*) FROM `job_table` WHERE job_skill = '" . $firsttable . "' AND city='" . $city . "'";
+echo "{";
+echo "\"names\":[";
+$sql = "SELECT DISTINCT city FROM `job_table`";
 $result = $conn->query($sql);
+$record_seperator = "";
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        $next_value = $row["COUNT(*)"];
-        $count_total = $next_value;
+      echo $record_seperator . "\"" . $row["city"] . "\"";
+      $record_seperator = ",";
     }
   }
 
-  echo "{\"count\":\"" . $count_total . "\"}";
+echo "]";
+echo "}";
 
 ?>

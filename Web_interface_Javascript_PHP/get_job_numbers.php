@@ -24,7 +24,18 @@ $all_matches = [];
 
 $firsttable = $_GET["table_name"];
 $max_results = $_GET["number_of_results"];
-$max_results = intval($max_results);
+$city = $_GET["city_name"];
+
+try{
+  $max_results = intval($max_results);
+}
+catch (Exception $e){
+  $max_results = 10;
+}
+
+if($max_results == 0){
+  $max_results = 10;
+}
 
 $array_for_table_names = [];
 
@@ -42,7 +53,7 @@ $other_tables = $array_for_table_names;
 foreach($other_tables as $this_table){
 $othertable = $this_table;
 
-$sql = "SELECT COUNT(*) as TOTALCOUNT FROM `job_table` t1 INNER JOIN `job_table` t2 ON t1.url = t2.url AND t1.job_skill = '" . $firsttable . "' AND t2.job_skill = '" . $othertable . "'";
+$sql = "SELECT COUNT(*) as TOTALCOUNT FROM `job_table` t1 INNER JOIN `job_table` t2 ON t1.url = t2.url AND t1.job_skill = '" . $firsttable . "' AND t2.job_skill = '" . $othertable . "' AND t1.city='" . $city . "'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
