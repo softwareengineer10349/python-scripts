@@ -13,6 +13,7 @@
 
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChartAllSkills);
 
 function drawChart() {
   var name_of_skill = $("#dropdown_skills_select option:selected").text();
@@ -27,9 +28,23 @@ function drawChart() {
 
       var data = new google.visualization.DataTable(jsonData);
       var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-      chart.draw(data, {width: 1000, height: 1000});
+      chart.draw(data, {width: 1000, height: 1000, title: "Most popular skills for jobs relating to "+name_of_skill});
       populateCount();
     }
+
+    function drawChartAllSkills() {
+      var number_of_results = $('#number_results_to_display').val();
+      var name_of_city = $("#dropdown_location_select option:selected").text();
+          var jsonData = $.ajax({
+              url: "get_all_jobs.php/?number_of_results="+number_of_results+"&city_name="+name_of_city,
+              dataType: "json",
+              async: false
+              }).responseText;
+
+          var data = new google.visualization.DataTable(jsonData);
+          var chart = new google.visualization.BarChart(document.getElementById('chart_all_skills_div'));
+          chart.draw(data, {width: 1000, height: 1000, title: "Most popular skills commercially"});
+        }
 
     function populateCount(){
       var name_of_skill = $("#dropdown_skills_select option:selected").text();
@@ -56,7 +71,7 @@ function populateDropdownSkills(){
 
 function populateDropdownLocation(){
     $.get( "get_all_locations.php", function( data ) {
-      var whole_string = "<select id='dropdown_location_select' onChange='drawChart()'>";
+      var whole_string = "<select id='dropdown_location_select' onChange='drawChart();drawChartAllSkills();'>";
       for (index = 0; index < data.names.length; ++index) {
           whole_string += "<option value =\"" + data.names[index] + "\">" + data.names[index] + "</option>";
           }
@@ -71,9 +86,7 @@ function populateDropdownLocation(){
 
 <body>
 
-<p> Choose what job you want to search on here and then see the graph show you what skills are also associated with the skill your interessted in</p>
-
-<div id="dropdown_skills"></div>
+  <h1>Popularity of job skills</h1>
 
 <p> Choose which location you want the search results to be from </p>
 
@@ -81,12 +94,19 @@ function populateDropdownLocation(){
 
 <p> Select how many results you want to be displayed. If you type 10 it will display the top 10; if you type 20 it will display the top 20; if you type a non-number it will just display 10 results.</p>
 
-<p>Number of max results displayed:<input type="text" id="number_results_to_display" onkeyup="drawChart()"></p>
+<p>Number of max results displayed:<input type="text" id="number_results_to_display" onkeyup="drawChart();drawChartAllSkills();"></p>
 
-<div id="skill_selected"></div>
+<p> This is a chart of the most popular skills for this city you have selected</p>
 
-<div id="number_total_jobs"></div>
+<div id="chart_all_skills_div"></div>
+
+<p> Choose what job you want to search on here and then see the graph show you what skills are also associated with the skill your interessted in</p>
+
+<div id="dropdown_skills"></div>
+
+<p> This is a chart of the most popular skills in the jobs that also contain the skill you have selected. <div id="skill_selected"></div> <div id="number_total_jobs"></div> </p>
 
 <div id="chart_div"></div>
+
 </body>
 </html>
