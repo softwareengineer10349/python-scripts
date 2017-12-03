@@ -33,10 +33,7 @@ It will not alter the file you read from, so you don't have to worry about it ov
 
 ===================== webCrawler.py =========================================
 
-Made for Python 2 and made to be run using the format: ./webCrawler.py. Don't forget to
-make sure the script is executable.
-
-This is still a bit of a work in progress.
+Made for Python 2 and made to be run using the format: ./webCrawler.py.
 
 webCrawler.py is a script I made to work out what languages/skills were actually used commercially.
 It searches seek.com.au for the locations specified, then searches through every single IT job
@@ -54,13 +51,20 @@ Made for Python 2 and made to be run using to format: ./writeJobStatsToDB.py.
 
 This is a script I made to take the results of webCrawler.py and write it to a DB.
 I mostly did this because I wanted to do some inner joins to look at correlations between skills.
-E.g. the same job description that has "python" has "Javascript" in it more than any other language.
-In general, "SQL" is the most popular language. Isn't that interesting?
+Sure, I know that Javascript is the most popular language, but what is the most popular
+language for jobs that have Python in it? Or PHP?
 
-I then decided to write a web interface to view the results, which you can read about below.
+I then decided to write a web interface to view the results, so I could make easy to read charts,
+ which you can read about below.
 
 ========================== Web_interface_Javascript_PHP =======================
 
 The web interface which displays the results from webCrawler.py.
+
+It lets you select what city you want to pull results from, what type of skill you
+want to pull results from (e.g. language, framework, etc.), how many results you
+want to see and shows you a graph of the most popular skills matching that criteria.
+It also lets you select which skill you want to analyse further and then gives you a graph
+of the skills which are the most highly correlated to the skill you're interested in.
 
 Server side all in PHP, client side in HTML/CSS/Javascript/jQuery, charts using Google Charts (with Javascript).
