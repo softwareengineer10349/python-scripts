@@ -15,37 +15,111 @@ list_of_times.append("Start time: "+str(datetime.datetime.now()))
 list_of_cities = {"Brisbane" : "in-Brisbane-CBD-&-Inner-Suburbs-Brisbane-QLD",
 "Melbourne" :  "in-Melbourne-CBD-&-Inner-Suburbs-Melbourne-VIC",
 "Sydney" : "in-Sydney-CBD,-Inner-West-&-Eastern-Suburbs-Sydney-NSW"}
-#list_of_cities = ["in-Brisbane-CBD-&-Inner-Suburbs-Brisbane-QLD"]
+#list_of_cities = {"Brisbane": "in-Brisbane-CBD-&-Inner-Suburbs-Brisbane-QLD"}
 dictionary_of_all_dictionary_values = {}
 dictionary_of_total_counts = {}
 dictionary_of_unmatched = {}
 dictionary_of_filehandles = {}
 dictionary_of_matched = {}
 it_url = "https://www.seek.com.au/jobs-in-information-communication-technology"
-pages_to_search = 2
+pages_to_search = 1000
 string_for_job_title = "article aria-label=\"([\s\S]+?)\""
 string_for_job_url = "href=\"\/job\/([\s\S]+?)\""
 dictionary_of_counts_matched_global = {}
-list_of_programming_keywords = ["\\.NET", "SQL", "database", "perl", "python", "ruby on rails",
-"ruby", "java ", "android", "ios", "C\\+\\+", "C#", "[^A-z]C[^A-z\\+#]", "perl", "web", "php",
-"security", "pentest", "angular", "vue", "jquery", "laravel", "sysadmin", "redis",
-"linux", "unix", "mobile", "network", "itsm", "xamarin", "analyst", "test", "engineer",
-"developer", "node", "sap", "sharepoint", "RHEL", "devops", "lead", " UX", "manager",
-"HANA", "administrator", "operator", "powershell", "drupal", "helpdesk", "help desk", "support",
-"programmer", "administration", "installer", "automation", "sales", "game",
-"supervisor", "designer", "video", "consultant", "coordinator", "analytic",
-"technician", "writer", "architect", "improvement", "cloud", "vb ", "vba ", "vb\\.net",
- "transformation", "telecommunication", "system", "digital", "entry", " IT ", "information",
-"Win ", "React", "project", "communication", "cerner", "iam", "service", "neo ?4 ?j",
-"resource", "JS", "data", "scientist", "azure", "director", "specialist",
-"expression", "concierge", "officer", "partner", "executive", "account",
-"technical", "operation", "wpf", "javascript", "front", "html", "css",
-"soa", "redux", "aws", "serverless", "wordpress", "bi ", "full", " GIS",
-"dot", "swift", "aem", "crm", "j2ee", "sap", "commerce", "senior", "junior",
-"mid", "pen test", "mysql", "oracle", "sql ?server", "go[^A-z]", "golang", "shell",
-"bash", "scala[^A-z]", "mongo", "django", "kubernetes", "docker", "flask", "ror",
-"t-sql", "mvc", "fin ?tech", "spring", "hibernate", "contract", "app ", "hadoop",
-"postgresql", "blockchain", "cakephp", "zend", "symfony", "Amazon web"]
+
+class JobSkill:
+     def __init__(self, regex_String, name_String, category):
+         self.regex = regex_String
+         self.name = name_String
+         #string_of_all = category.join("_")
+         self.category = '_'.join(category)
+
+list_of_programming_skills = [
+ JobSkill("(\\.|dot) ?NET[^/]",".NET",["Language"]),
+ JobSkill("SQL", "SQL", ["Language","Databases"]),
+JobSkill("database","Database",["Technology","Databases"]),
+JobSkill("perl","Perl",["Language","Scripting"]),
+JobSkill("python","Python",["Language","Scripting","Web"]),
+JobSkill("(ruby on rails|[^A-z]ror[^A-z])","Ruby on rails)",["Language","Web"]),
+JobSkill("ruby","Ruby",["Language"]),
+JobSkill("java ","Java",["Language"]),
+JobSkill("android","Android",["Technology","Mobile"]),
+JobSkill("ios","iOS",["Technology","Mobile"]),
+JobSkill("C\\+\\+","C++",["Language"]),
+JobSkill("C#","C#",["Language"]),
+JobSkill("[^A-z]C[^A-z\\+#]","C",["Language"]),
+JobSkill("web","Web",["Technology","Web"]),
+JobSkill("php","Php",["Language","Web"]),
+JobSkill("security", "Security",["Technology","Job Type"]),
+JobSkill("angular","Angular",["Framework","Web","Javascript Framework"]),
+JobSkill("vue","Vue.js",["Framework","Web","Javascript Framework"]),
+JobSkill("jquery","jQuery",["Framework","Web","Javascript Framework"]),
+JobSkill("laravel", "Laravel", ["Framework","Web","PHP Framework"]),
+JobSkill("sys(tem )?admin", "System administration", ["Job Type"]),
+JobSkill("redis","Redis",["Databases","Technology"]),
+JobSkill("linux","Linux",["OS","Technology"]),
+JobSkill("unix","Unix",["OS","Technology"]),
+JobSkill("mobile","Mobile",["Mobile","Technology"]),
+JobSkill("network","Network",["Technology"]),
+JobSkill("xamarin","Xamarin",["Mobile"]),
+JobSkill("analy(st|tic)","Analyst",["Job Type"]),
+JobSkill("test","test",["Additional Skill"]),
+JobSkill("engineer","Engineer",["Job Type"]),
+JobSkill("developer","developer",["Job Type"]),
+JobSkill("node","Node.js",["Framework","Web","Javascript Framework"]),
+JobSkill("sap[^A-z]","SAP",["Databases"]),
+JobSkill("sharepoint","Sharepoint",["Technology"]),
+JobSkill("RHEL", "Red Hat Enterprise Linux",["OS","Technology"]),
+JobSkill("devops","Devops",["Additional Skills"]),
+JobSkill("lead", "Lead", ["Job level"]),
+JobSkill("( UX|user experience)","User Experience",["Additional Skills"]),
+JobSkill("(manager|supervisor)","Manager",["Job level"]),
+JobSkill("HANA", "HANA", ["Databases","Technology"]),
+JobSkill("powershell","Powershell",["Technology"]),
+JobSkill("drupal","Drupal",["Technology"]),
+JobSkill("help ?desk","Help desk",["Job Type"]),
+JobSkill("programmer", "Programmer",["Job Type"]),
+JobSkill("gam(e|ing)","Gaming",["Job Type"]),
+JobSkill("architect","Architect",["Job Type"]),
+JobSkill("cloud","Cloud",["Technology"]),
+JobSkill("[^A-z]vb[^A-z]","VB",["Language"]),
+JobSkill("Windows","Windows",["OS","Company"]),
+JobSkill("Red Rat","Red Hat",["Company"]),
+JobSkill("React","React",["Web","Framework","Javascript Framework"]),
+JobSkill("neo ?4 ?j","Neo4j",["Databases"]),
+JobSkill("(JS|Javascript)","Javascript",["Web","Language"]),
+JobSkill("azure","Azure",["Technology"]),
+JobSkill("wpf","WPF",["Technology","Web"]),
+JobSkill("front.?end","Front End",["Job Type"]),
+JobSkill("html","HTML",["Web","Language"]),
+JobSkill("css","CSS",["Web","Language"]),
+JobSkill("redux","Redux",["Technology"]),
+JobSkill("(aws|amazon web service)","AWS",["Technology","Web"]),
+JobSkill("wordpress","Wordpress",["Technology"]),
+JobSkill("full.stack", "Full Stack",["Job Type"]),
+JobSkill("swift", "Swift",["Language"]),
+JobSkill("senior","Senior",["Job level"]),
+JobSkill("junior","Junior",["Job level"]),
+JobSkill("pen(etration)? ?test","Penetration tester",["Job Type"]),
+JobSkill("mysql", "MySQL",["Web","Databases"]),
+JobSkill("oracle","Oracle",["Company","Databases"]),
+JobSkill("sql ?server", "SQL Server",["Databases"]),
+JobSkill("(go[^A-z]|golang)","Go (language)",["Language"]),
+JobSkill("(shell|bash)","Shell",["Technology","Language"]),
+JobSkill("scala[^A-z]","Scala",["Language"]),
+JobSkill("mongo","MongoDB",["Databases"]),
+JobSkill("django","Django",["Web","Framework","Python Framework"]),
+JobSkill("kubernetes","Kubernetes",["Technology"]),
+JobSkill("docker","Docker",["Technology"]),
+JobSkill("flask", "Flask",["Web","Framework","Python Framework"]),
+JobSkill("spring","Spring",["Framework","Java Framework"]),
+JobSkill("hibernate","Hibernate",["Framework","Java Framework"]),
+JobSkill("hadoop","Hadoop",["Databases"]),
+JobSkill("postgresql", "PostgreSQL",["Databases"]),
+JobSkill("cakephp","CakePHP",["Framework", "PHP Framework"]),
+JobSkill("zend", "Zend",["Framework","PHP Framework"]),
+JobSkill("symfony","Symfony",["Framework","PHP Framework"])
+]
 
 
 general_folder_for_output = "Files_generated_by_script"
@@ -63,10 +137,12 @@ run_log = open(general_folder_for_output + "/_Run_log.txt", "w")
 error_log = open(general_folder_for_output + "/_Error_log.txt", "w")
 my_logs = [run_log, error_log]
 
-for each_keyword in list_of_programming_keywords:
+#for each_keyword in list_of_programming_keywords:
+for each_job_skill in list_of_programming_skills:
+    each_keyword = each_job_skill.regex
     dictionary_of_counts_matched_global[each_keyword] = 0
     for each_city in list_of_cities:
-        my_key = each_city + "_" + each_keyword.replace(" ","_").replace("\\","").replace(".","dot").replace("+","plus").replace("?","").replace("[","").replace("]","")
+        my_key = each_city + "_" + each_job_skill.name + "_" + each_job_skill.category# each_keyword.replace(" ","_").replace("\\","").replace(".","dot").replace("+","plus").replace("?","").replace("[","").replace("]","")
         dictionary_of_filehandles[my_key] = open(start_filename_for_writing + my_key + ".txt", 'w')
 
 list_of_city_urls = []
@@ -109,12 +185,14 @@ for city_key in list_of_cities:
                     search_for_description_in_box = "class=\"templatetext\"[\s\S]+?<\/div>"
                     description_in_box = re.search(search_for_description_in_box,this_job_html,re.IGNORECASE)
                     job_info = description_in_box.group(0)
-                    for keyword in list_of_programming_keywords:
+                    #for keyword in list_of_programming_keywords:
+                    for each_job_skill in list_of_programming_skills:
+                        keyword = each_job_skill.regex
                         match_in_job_page = re.search(keyword, job_info, re.IGNORECASE)
                         if(match_in_job_page):
                             dictionary_counts_for_this_city[keyword] += 1
                             hit_match=1
-                            keyword_file_safe = city_key + "_" + keyword.replace(" ","_").replace("\\","").replace(".","dot").replace("+","plus").replace("?","").replace("[","").replace("]","")
+                            keyword_file_safe = city_key + "_" + each_job_skill.name + "_" + each_job_skill.category #keyword.replace(" ","_").replace("\\","").replace(".","dot").replace("+","plus").replace("?","").replace("[","").replace("]","")
                             file_for_writing_urls = dictionary_of_filehandles[keyword_file_safe]
                             file_for_writing_urls.write(actual_url+"\n")
                 except:
