@@ -25,6 +25,7 @@ $all_matches = [];
 $firsttable = $_GET["table_name"];
 $max_results = $_GET["number_of_results"];
 $city = $_GET["city_name"];
+$skill_type = $_GET["skill_type"];
 
 try{
   $max_results = intval($max_results);
@@ -39,7 +40,7 @@ if($max_results == 0){
 
 $array_for_table_names = [];
 
-$sql = "SELECT job_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "'";
+$sql = "SELECT DISTINCT job_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "' AND type_of_skill='" . $skill_type . "'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {

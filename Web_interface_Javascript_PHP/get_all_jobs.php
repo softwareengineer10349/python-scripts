@@ -29,6 +29,7 @@ catch (Exception $e){
 }
 
 $city = $_GET["city_name"];
+$skill_type = $_GET["skill_type"];
 
 if($max_results == 0){
   $max_results = 10;
@@ -36,7 +37,12 @@ if($max_results == 0){
 
 $all_matches = [];
 
-$sql = "SELECT COUNT(*) as TOTALCOUNT, job_skill FROM `job_table` WHERE city = '" . $city . "' GROUP BY job_skill";
+$sql = "SELECT COUNT(*) as TOTALCOUNT, j.job_skill FROM `job_table` as j, `master_table` as m
+WHERE j.city = '" . $city . "'
+AND j.job_skill = m.job_skill
+AND m.type_of_skill = '" . $skill_type . "'
+GROUP BY j.job_skill";
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

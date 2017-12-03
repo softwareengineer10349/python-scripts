@@ -27,13 +27,13 @@ $firsttable = $_GET["table_name"];
 
 $array_for_table_names = [];
 
-$sql = "SELECT DISTINCT job_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "'";
+$sql = "SELECT DISTINCT type_of_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "'";
 $result = $conn->query($sql);
 $started = 0;
 echo "{\"names\":[";
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        $next_value = $row["job_skill"];
+        $next_value = $row["type_of_skill"];
         if($started){
           echo ",";
         }

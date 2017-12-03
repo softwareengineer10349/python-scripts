@@ -10,6 +10,7 @@
     <script type="text/javascript">
     populateDropdownSkills();
     populateDropdownLocation();
+    populateDropdownSkillTypes();
 
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -19,9 +20,10 @@ function drawChart() {
   var name_of_skill = $("#dropdown_skills_select option:selected").text();
   var number_of_results = $('#number_results_to_display').val();
   var name_of_city = $("#dropdown_location_select option:selected").text();
+  var type_of_skill = $("#dropdown_types_select option:selected").text();
   document.getElementById('skill_selected').innerHTML = "<p>The skill you have selected is " + name_of_skill + ".</p>";
       var jsonData = $.ajax({
-          url: "get_job_numbers.php/?table_name=" + name_of_skill + "&number_of_results="+number_of_results+ "&city_name=" + name_of_city,
+          url: "get_job_numbers.php/?table_name=" + name_of_skill + "&number_of_results="+number_of_results+ "&city_name=" + name_of_city+"&skill_type="+type_of_skill,
           dataType: "json",
           async: false
           }).responseText;
@@ -35,8 +37,9 @@ function drawChart() {
     function drawChartAllSkills() {
       var number_of_results = $('#number_results_to_display').val();
       var name_of_city = $("#dropdown_location_select option:selected").text();
+      var name_of_skill = $("#dropdown_types_select option:selected").text();
           var jsonData = $.ajax({
-              url: "get_all_jobs.php/?number_of_results="+number_of_results+"&city_name="+name_of_city,
+              url: "get_all_jobs.php/?number_of_results="+number_of_results+"&city_name="+name_of_city+"&skill_type="+name_of_skill,
               dataType: "json",
               async: false
               }).responseText;
@@ -80,6 +83,17 @@ function populateDropdownLocation(){
         }, "json");
       }
 
+function populateDropdownSkillTypes(){
+    $.get( "get_all_types_skills.php", function( data ) {
+      var whole_string = "<select id='dropdown_types_select' onChange='drawChart();drawChartAllSkills();'>";
+      for (index = 0; index < data.names.length; ++index) {
+          whole_string += "<option value =\"" + data.names[index] + "\">" + data.names[index] + "</option>";
+          }
+        whole_string += "</select>";
+        document.getElementById('dropdown_types').innerHTML = whole_string;
+        }, "json");
+      }
+
 
     </script>
 </head>
@@ -91,6 +105,10 @@ function populateDropdownLocation(){
 <p> Choose which location you want the search results to be from </p>
 
 <div id="dropdown_location"></div>
+
+<p> Choose what type you want to search </p>
+
+<div id="dropdown_types"></div>
 
 <p> Select how many results you want to be displayed. If you type 10 it will display the top 10; if you type 20 it will display the top 20; if you type a non-number it will just display 10 results.</p>
 
