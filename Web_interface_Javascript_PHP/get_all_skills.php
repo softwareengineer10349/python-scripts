@@ -1,33 +1,15 @@
 <?php
-$servername = "localhost";
-$dbname = "Jobs";
-$username = "";
-$password = "";
 
-$file_handle = fopen("username password file.txt", "r");
-while (!feof($file_handle)) {
-   $line = trim(fgets($file_handle));
-   $uname_pword = explode(",",$line);
-   $username = $uname_pword[0];
-   $password = $uname_pword[1];
-   break;
-}
-fclose($file_handle);
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_connection_start.php';
 
 $all_matches = [];
 
 
-$firsttable = $_GET["table_name"];
+$firsttable = mysqli_real_escape_string($conn,$_GET["table_name"]);
 
 $array_for_table_names = [];
 
-$sql = "SELECT DISTINCT job_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "'";
+$sql = "CALL sp_get_all_skills ('" . $firsttable . "')";
 $result = $conn->query($sql);
 $started = 0;
 echo "{\"names\":[";
