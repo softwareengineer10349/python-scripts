@@ -27,7 +27,8 @@ $firsttable = $_GET["table_name"];
 
 $array_for_table_names = [];
 
-$sql = "SELECT DISTINCT type_of_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "'";
+$sql = "CALL sp_skill_types_not_selected('" . $firsttable . "')";
+
 $result = $conn->query($sql);
 $started = 0;
 echo "{\"names\":[";

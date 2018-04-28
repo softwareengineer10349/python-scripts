@@ -22,10 +22,10 @@ if ($conn->connect_error) {
 
 $count_total = 0;
 
-$firsttable = $_GET["table_name"];
-$city = $_GET["city_name"];
+$firsttable = mysqli_real_escape_string($conn,$_GET["table_name"]);
+$city = mysqli_real_escape_string($conn,$_GET["city_name"]);
 
-$sql = "SELECT COUNT(*) FROM `job_table` WHERE job_skill = '" . $firsttable . "' AND city='" . $city . "'";
+$sql = "CALL sp_get_count_of_all_jobs_in_city('" . $firsttable . "', '" . $city . "')"; 
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {

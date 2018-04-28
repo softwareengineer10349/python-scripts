@@ -22,10 +22,10 @@ if ($conn->connect_error) {
 
 $all_matches = [];
 
-$firsttable = $_GET["table_name"];
-$max_results = $_GET["number_of_results"];
-$city = $_GET["city_name"];
-$skill_type = $_GET["skill_type"];
+$job_skill = mysqli_real_escape_string($conn,$_GET["table_name"]);
+$max_results = mysqli_real_escape_string($conn,$_GET["number_of_results"]);
+$city = mysqli_real_escape_string($conn,$_GET["city_name"]);
+$skill_type = mysqli_real_escape_string($conn,$_GET["skill_type"]);
 
 try{
   $max_results = intval($max_results);
@@ -38,35 +38,22 @@ if($max_results == 0){
   $max_results = 10;
 }
 
-$array_for_table_names = [];
+$all_matches = [];
 
-$sql = "SELECT DISTINCT job_skill FROM `master_table` WHERE job_skill <> '" . $firsttable . "' AND type_of_skill='" . $skill_type . "'";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $next_value = $row["job_skill"];
-        array_push($array_for_table_names,$next_value);
-    }
-  }
+$sql = "CALL sp_get_count_of_all_skills_in_city_corresponding_job_skill('" . $skill_type . "', '" . $city . "'," . $max_results . ",'" . $job_skill . "')";
 
-$other_tables = $array_for_table_names;
-
-foreach($other_tables as $this_table){
-$othertable = $this_table;
-
-$sql = "SELECT COUNT(*) as TOTALCOUNT FROM `job_table` t1 INNER JOIN `job_table` t2 ON t1.url = t2.url AND t1.job_skill = '" . $firsttable . "' AND t2.job_skill = '" . $othertable . "' AND t1.city='" . $city . "'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 
-        $next_value = $row["TOTALCOUNT"];
-        $all_matches[$othertable] = $next_value;
+        $number_of_jobs = $row["TOTALCOUNT"];
+        $skill_being_counted = $row["job_skill"];
+        $all_matches[$skill_being_counted] = $number_of_jobs;
     }
 
 } else {
     //echo "0 results";
-}
 }
 
 echo "{";
@@ -80,18 +67,11 @@ echo "\"rows\": [";
 
 $record_seperator = "";
 
-$counter = 0;
-
 arsort($all_matches);
 
 foreach ($all_matches as $skill_description => $count){
-  if($counter < $max_results){
   echo $record_seperator . "{\"c\":[{\"v\":\"" . $skill_description . "\",\"f\":null},{\"v\":" . $count . ",\"f\":null}]}";
   $record_seperator = ",";
-  $counter++;
-} else{
-  break;
-}
 }
 
 echo "]";

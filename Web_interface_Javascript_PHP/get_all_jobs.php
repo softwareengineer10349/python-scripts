@@ -28,20 +28,15 @@ catch (Exception $e){
   $max_results = 10;
 }
 
-$city = $_GET["city_name"];
-$skill_type = $_GET["skill_type"];
+$city = mysqli_real_escape_string($conn,$_GET["city_name"]);
+$skill_type = mysqli_real_escape_string($conn,$_GET["skill_type"]);
 
 if($max_results == 0){
   $max_results = 10;
 }
 
 $all_matches = [];
-
-$sql = "SELECT COUNT(*) as TOTALCOUNT, j.job_skill FROM `job_table` as j, `master_table` as m
-WHERE j.city = '" . $city . "'
-AND j.job_skill = m.job_skill
-AND m.type_of_skill = '" . $skill_type . "'
-GROUP BY j.job_skill";
+$sql = "CALL sp_get_count_of_all_jobs('" . $city . "', '" . $skill_type . "', " . $max_results . ")";
 
 $result = $conn->query($sql);
 
@@ -72,13 +67,9 @@ $counter = 0;
 arsort($all_matches);
 
 foreach ($all_matches as $skill_description => $count){
-  if($counter < $max_results){
   echo $record_seperator . "{\"c\":[{\"v\":\"" . $skill_description . "\",\"f\":null},{\"v\":" . $count . ",\"f\":null}]}";
   $record_seperator = ",";
   $counter++;
-} else{
-  break;
-}
 }
 
 echo "]";
