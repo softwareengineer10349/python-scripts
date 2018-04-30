@@ -1,7 +1,7 @@
 <?php
 
-$servername = "localhost";
-$dbname = "Jobs";
+$servername = "";
+$dbname = "";
 $username = "";
 $password = "";
 
@@ -11,6 +11,8 @@ while (!feof($file_handle)) {
    $uname_pword = explode(",",$line);
    $username = $uname_pword[0];
    $password = $uname_pword[1];
+   $servername = $uname_pword[2];
+   $dbname = $uname_pword[3];
    break;
 }
 fclose($file_handle);
