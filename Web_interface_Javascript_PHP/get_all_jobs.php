@@ -28,8 +28,6 @@ if ($result->num_rows > 0) {
         $all_matches[$row["job_skill"]] = $next_value;
     }
 
-} else {
-    //echo "0 results";
 }
 
 echo "{";
@@ -43,14 +41,11 @@ echo "\"rows\": [";
 
 $record_seperator = "";
 
-$counter = 0;
-
 arsort($all_matches);
 
 foreach ($all_matches as $skill_description => $count){
   echo $record_seperator . "{\"c\":[{\"v\":\"" . $skill_description . "\",\"f\":null},{\"v\":" . $count . ",\"f\":null}]}";
   $record_seperator = ",";
-  $counter++;
 }
 
 echo "]";
