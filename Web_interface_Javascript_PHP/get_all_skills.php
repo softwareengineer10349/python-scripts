@@ -4,12 +4,9 @@ include 'db_connection_start.php';
 
 $all_matches = [];
 
-
-$firsttable = mysqli_real_escape_string($conn,$_GET["table_name"]);
-
 $array_for_table_names = [];
 
-$sql = "CALL sp_get_all_skills ('" . $firsttable . "')";
+$sql = "CALL sp_get_all_skills ()";
 $result = $conn->query($sql);
 $started = 0;
 echo "{\"names\":[";
