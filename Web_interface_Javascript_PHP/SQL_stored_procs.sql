@@ -1,7 +1,7 @@
 DELIMITER //
-CREATE PROCEDURE sp_get_all_skills (skill_already_selected VARCHAR(200))
+CREATE PROCEDURE sp_get_all_skills ()
 BEGIN
-SELECT DISTINCT `job_skill` FROM `master_table` WHERE job_skill <> skill_already_selected;
+SELECT DISTINCT `job_skill` FROM `master_table`;
 END //
 DELIMITER ;
 
