@@ -23,7 +23,7 @@ function drawChart() {
   var type_of_skill = $("#dropdown_types_select option:selected").text();
   document.getElementById('skill_selected').innerHTML = "<p>The skill you have selected is " + name_of_skill + ".</p>";
       var jsonData = $.ajax({
-          url: "get_job_numbers.php/?table_name=" + name_of_skill + "&number_of_results="+number_of_results+ "&city_name=" + name_of_city+"&skill_type="+type_of_skill,
+          url: "get_job_numbers.php/?table_name=" + encodeURIComponent(name_of_skill) + "&number_of_results="+number_of_results+ "&city_name=" + name_of_city+"&skill_type="+type_of_skill,
           dataType: "json",
           async: false
           }).responseText;
@@ -53,7 +53,7 @@ function drawChart() {
       var name_of_skill = $("#dropdown_skills_select option:selected").text();
       var name_of_city = $("#dropdown_location_select option:selected").text();
       var jsonData = $.ajax({
-          url: "get_count_total.php/?table_name=" + name_of_skill + "&city_name=" + name_of_city,
+          url: "get_count_total.php/?table_name=" + encodeURIComponent(name_of_skill) + "&city_name=" + name_of_city,
           dataType: "json",
           async: false
           }).responseText;
