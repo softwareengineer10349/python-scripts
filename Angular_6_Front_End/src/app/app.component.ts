@@ -70,29 +70,34 @@ export class AppComponent {
 
  }
 
+ setValueIfUndefined(initialValue, toSet): string{
+ if(initialValue == undefined){
+ return toSet;
+ }
+ return initialValue;
+ }
+
  recalculateCountSpecificJob(skill, city): void {
  this.http.get('http://localhost/job_skills_web_pages/get_count_total.php?table_name='+ skill +'&city_name=' + city).subscribe(data => {
    this.total_data_count = data.count;
  });
  }
 
- funcOnChangeJobSpecificGraph(): void {
+ changeAllJobsGraph(): void{
+ this.selectedLocation = this.setValueIfUndefined(this.selectedLocation, this.all_locations[0]);
+ this.selectedSkillType = this.setValueIfUndefined(this.selectedSkillType, this.all_skill_types[0]);
+ this.selectedAmount = this.setValueIfUndefined(this.selectedAmount, 10);
 
-if(this.selectedSkill == undefined){
-this.selectedSkill = this.all_skills[0];
-}
+ this.drawAllJobGraph(this.selectedLocation, this.selectedAmount, this.selectedSkillType);
 
-if(this.selectedLocation == undefined){
-this.selectedLocation = this.all_locations[0];
-}
+ }
 
-if(this.selectedSkillType == undefined){
-this.selectedSkillType = this.all_skill_types[0];
-}
+changeJobSpecificGraph(): void {
 
-if(this.selectedAmount == undefined){
-this.selectedAmount = 10;
-}
+this.selectedSkill = this.setValueIfUndefined(this.selectedSkill, this.all_skills[0]);
+this.selectedLocation = this.setValueIfUndefined(this.selectedLocation, this.all_locations[0]);
+this.selectedSkillType = this.setValueIfUndefined(this.selectedSkillType, this.all_skill_types[0]);
+this.selectedAmount = this.setValueIfUndefined(this.selectedAmount, 10);
 
 this.recalculateCountSpecificJob(this.selectedSkill, this.selectedLocation);
 this.drawJobSpecificGraph(this.selectedSkill, this.selectedLocation, this.selectedAmount, this.selectedSkillType);

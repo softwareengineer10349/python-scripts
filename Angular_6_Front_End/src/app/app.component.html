@@ -2,7 +2,7 @@
 
 <p> Choose which location you want the search results to be from </p>
 
-<select id='dropdown_location_select' (change)='funcOnChangeJobSpecificGraph();' [(ngModel)]="selectedLocation">
+<select id='dropdown_location_select' (change)='changeJobSpecificGraph(); changeAllJobsGraph();' [(ngModel)]="selectedLocation">
 <option *ngFor='let location of all_locations'>
     {{ location }}
 </option>
@@ -10,7 +10,7 @@
 
 <p> Choose what type you want to search </p>
 
-<select id='dropdown_types_select' (change)='funcOnChangeJobSpecificGraph();' [(ngModel)]="selectedSkillType">
+<select id='dropdown_types_select' (change)='changeJobSpecificGraph(); changeAllJobsGraph();' [(ngModel)]="selectedSkillType">
 <option *ngFor='let skill of all_skill_types'>
     {{ skill }}
 </option>
@@ -18,7 +18,7 @@
 
 <p> Select how many results you want to be displayed. If you type 10 it will display the top 10; if you type 20 it will display the top 20; if you type a non-number it will just display 10 results. Press enter when you want to change the value.</p>
 
-<p>Number of max results displayed:<input type="text" id="number_results_to_display"  (change)='funcOnChangeJobSpecificGraph();' [(ngModel)]="selectedAmount"></p>
+<p>Number of max results displayed:<input type="text" id="number_results_to_display"  (change)='changeJobSpecificGraph(); changeAllJobsGraph();' [(ngModel)]="selectedAmount"></p>
 
 <p> This is a chart of the most popular skills for this city you have selected</p>
 
@@ -26,7 +26,7 @@
 
 <p> Choose what job you want to search on here and then see the graph show you what skills are also associated with the skill your interessted in</p>
 
-<select id='dropdown_types_select' (change)='funcOnChangeJobSpecificGraph();' [(ngModel)]="selectedSkill">
+<select id='dropdown_types_select' (change)='changeJobSpecificGraph();' [(ngModel)]="selectedSkill">
 <option *ngFor='let skill of all_skills'>
     {{ skill }}
 </option>
