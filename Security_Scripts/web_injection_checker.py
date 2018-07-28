@@ -3,6 +3,11 @@ import urllib
 import urllib2
 import requests
 import urlparse
+#from bs4 import BeautifulSoup
+from selenium import webdriver
+from seleniumrequests import Firefox
+from requestium import Session, Keys
+import re
 
 def initialiseSettings():
     my_dict = {}
@@ -22,6 +27,7 @@ testsFailed = 0
 def testResult(textIfVulnerable, printSuccess, printFail, full_body,myUniqueText):
     global testsFailed
     global testsPassed
+    #print full_body
     if textIfVulnerable in full_body:
         print(printFail)
         testsFailed+=1
@@ -73,6 +79,18 @@ values = { 'form': form_val, 'firstname' : 'A', 'lastname' : urllib.quote_plus(a
 full_url = base_url
 web_result = resultOfSendRequest(s,full_url,cookies,values)
 testResult("<h2>TTTEST", "SAFE FROM ENCODED HTML TAG INJECTION", "VULNERABLE TO ENCODED HTML TAG INJECTION, YOU SHOULD USE FUNCTION htmlspecialchars", web_result, "TTTEST")
+
+#JAVASCRIPT RENDERING
+#login for JS stuff
+values = { 'login': username,'password': password, 'form': form_val}
+s = requests.session()
+s.post('http://localhost/bWAPP/login.php', data=values, cookies=cookies)
+
+#URL injection
+base_url = "http://localhost/bWAPP/htmli_current_url.php"
+full_url = base_url + "#" + attack_url
+response = s.get(full_url)
+testResult("<h2>TTTEST", "SAFE FROM URL INJECTION", "VULNERABLE TO URL INJECTION", response.text, base_url)
 
 print("\n================ Totals =================")
 print("Total tests passed: "+str(testsPassed))
