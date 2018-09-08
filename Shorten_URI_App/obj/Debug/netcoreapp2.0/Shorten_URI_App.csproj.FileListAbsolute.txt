@@ -1,0 +1,10 @@
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/bin/Debug/netcoreapp2.0/Shorten_URI_App.deps.json
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/bin/Debug/netcoreapp2.0/Shorten_URI_App.runtimeconfig.json
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/bin/Debug/netcoreapp2.0/Shorten_URI_App.runtimeconfig.dev.json
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/bin/Debug/netcoreapp2.0/Shorten_URI_App.dll
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/bin/Debug/netcoreapp2.0/Shorten_URI_App.pdb
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/obj/Debug/netcoreapp2.0/Shorten_URI_App.csproj.CoreCompileInputs.cache
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/obj/Debug/netcoreapp2.0/Shorten_URI_App.AssemblyInfoInputs.cache
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/obj/Debug/netcoreapp2.0/Shorten_URI_App.AssemblyInfo.cs
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/obj/Debug/netcoreapp2.0/Shorten_URI_App.dll
+/home/tt/extraSpace/python-scripts/Shorten_URI_App/obj/Debug/netcoreapp2.0/Shorten_URI_App.pdb
