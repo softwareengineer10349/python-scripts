@@ -21,14 +21,6 @@ namespace Shorten_URI_App.Controllers
         public shortenURIcontroller(shortenURIcontext context)
         {
             _context = context; //DB Context for Entity Framework
-            
-            //Testing
-            
-            if(_context.URIrecords.Count() == 0){
-            _context.URIrecords.Add(new URIrecord {longURI = "https://www.foxtel.com.au/watch", baseURI = "https://www.foxtel.com.au", token = "00zz", employeeID = "a"});
-            _context.SaveChanges();
-            }
-            
 
         }
 
