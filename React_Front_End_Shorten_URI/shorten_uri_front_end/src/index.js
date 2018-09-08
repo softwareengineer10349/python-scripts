@@ -112,6 +112,7 @@ class UrlShortner extends React.Component {
         return;
       }
 
+      //POST requests just didn't want to work. I could make it work with Postman, and I set the application type to JSON and stringified JSON in the body, but it just didn't work
       fetch('http://localhost:5000/api/shortenURI/' + encodeURIComponent(long_uri) + "/" + encodeURIComponent(employee_ID))
               .then((response) => {
                 this.setState({
